@@ -52,6 +52,14 @@ class AudioProcessorApplicationTests {
 		ResponseEntity<String> getResponse = restTemplate
 				.getForEntity(locationOfWaveForm, String.class);
 		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+		DocumentContext documentContext = JsonPath.parse(getResponse.getBody());
+		Number id = documentContext.read("$.id");
+		String recDate = documentContext.read("$.recDate");
+		String location = documentContext.read("$.location");
+		assertThat(id).isNotNull();
+		assertThat(recDate).isEqualTo("27-08-2019");
+		assertThat(location).isEqualTo("loch-ness");
 	}
 
 
