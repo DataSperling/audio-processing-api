@@ -9,6 +9,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.net.URI;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -37,6 +39,19 @@ class AudioProcessorApplicationTests {
 				.getForEntity("/waveforms/9798", String.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 		assertThat(response.getBody()).isBlank();
+	}
+
+	@Test
+	void shouldCreateANewWaveForm() {
+		WaveForm newWaveForm = new WaveForm(null, "27-08-2019", "loch-ness");
+		ResponseEntity<Void> createResponse = restTemplate
+				.postForEntity("/waveforms", newWaveForm, Void.class);
+		assertThat(createResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+
+		URI locationOfWaveForm = createResponse.getHeaders().getLocation();
+		ResponseEntity<String> getResponse = restTemplate
+				.getForEntity(locationOfWaveForm, String.class);
+		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 
 

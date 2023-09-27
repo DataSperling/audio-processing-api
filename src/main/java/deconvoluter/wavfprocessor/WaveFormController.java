@@ -1,11 +1,10 @@
 package deconvoluter.wavfprocessor;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Optional;
 
 @RestController
@@ -26,5 +25,15 @@ public class WaveFormController {
     } else {
       return ResponseEntity.notFound().build();
     }
+  }
+
+  @PostMapping()
+  private ResponseEntity<Void> createWaveForm(@RequestBody WaveForm newWaveFormRequest, UriComponentsBuilder ucb) {
+    WaveForm savedWaveForm = waveFormRepository.save(newWaveFormRequest);
+    URI locationOfNewWaveForm = ucb
+        .path("waveforms/{id}")
+        .buildAndExpand(savedWaveForm.id())
+        .toUri();
+    return ResponseEntity.created(locationOfNewWaveForm).build();
   }
 }
