@@ -27,11 +27,19 @@ class AudioProcessorApplicationTests {
 		Number id = documentContext.read("$.id");
 		assertThat(id).isEqualTo(17);
 
-		String date = documentContext.read("$.date");
-		assertThat(date).isEqualTo("19-07-2022");
+		String recDate = documentContext.read("$.recDate");
+		assertThat(recDate).isEqualTo("5-03-2017");
 
 		String location = documentContext.read("$.location");
-		assertThat(location).isEqualTo("loch-ness");
+		assertThat(location).isEqualTo("windermere");
+	}
+
+	@Test
+	void shouldNotReturnAWaveFromWithUnknownId() {
+		ResponseEntity<String> response = restTemplate
+				.getForEntity("/waveforms/9798", String.class);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+		assertThat(response.getBody()).isBlank();
 	}
 
 

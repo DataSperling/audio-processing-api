@@ -1,0 +1,1 @@
+INSERT INTO cash_card(ID, RECDATE, LOCATION) VALUES (17, '5-03-2017', 'windermere');

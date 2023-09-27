@@ -22,8 +22,8 @@ public class WaveformJsonTest {
     assertThat(json.write(waveForm)).hasJsonPathNumberValue("@.id");
     assertThat(json.write(waveForm)).extractingJsonPathNumberValue("@.id")
         .isEqualTo(17);
-    assertThat(json.write(waveForm)).hasJsonPathStringValue("@.date");
-    assertThat(json.write(waveForm)).extractingJsonPathStringValue("@.date")
+    assertThat(json.write(waveForm)).hasJsonPathStringValue("@.recDate");
+    assertThat(json.write(waveForm)).extractingJsonPathStringValue("@.recDate")
         .isEqualTo("5-03-2017");
     assertThat(json.write(waveForm)).hasJsonPathStringValue("@.location");
     assertThat(json.write(waveForm)).extractingJsonPathStringValue("@.location")
@@ -36,13 +36,13 @@ public class WaveformJsonTest {
         """
             {
               "id" : 17,
-              "date" : "5-03-2017",
+              "recDate" : "5-03-2017",
               "location" : "windermere"
             }
             """;
     assertThat(json.parse(expected)).isEqualTo(new WaveForm(17L, "5-03-2017", "windermere"));
     assertThat(json.parseObject(expected).id()).isEqualTo(17);
-    assertThat(json.parseObject(expected).date()).isEqualTo("5-03-2017");
+    assertThat(json.parseObject(expected).recDate()).isEqualTo("5-03-2017");
     assertThat(json.parseObject(expected).location()).isEqualTo("windermere");
   }
 
