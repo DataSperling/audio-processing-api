@@ -22,14 +22,11 @@ class AudioProcessorApplicationTests {
 		ResponseEntity<String> response = restTemplate
 				.getForEntity("/waveforms/17", String.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
 		DocumentContext documentContext = JsonPath.parse(response.getBody());
 		Number id = documentContext.read("$.id");
 		assertThat(id).isEqualTo(17);
-
 		String recDate = documentContext.read("$.recDate");
 		assertThat(recDate).isEqualTo("5-03-2017");
-
 		String location = documentContext.read("$.location");
 		assertThat(location).isEqualTo("windermere");
 	}

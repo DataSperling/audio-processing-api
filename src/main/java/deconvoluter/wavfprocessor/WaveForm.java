@@ -1,4 +1,6 @@
 package deconvoluter.wavfprocessor;
 
-public record WaveForm(Long id, String recDate, String location) {
+import org.springframework.data.annotation.Id;
+
+public record WaveForm(@Id Long id, String recDate, String location) {
 }
