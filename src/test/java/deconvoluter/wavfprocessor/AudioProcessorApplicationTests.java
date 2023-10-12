@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 //import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class AudioProcessorApplicationTests {
 
 	@Autowired
@@ -57,7 +57,6 @@ class AudioProcessorApplicationTests {
 
 		int waveFormCount = documentContext.read("$.length()");
 		assertThat(waveFormCount).isEqualTo(4);
-		System.out.print("number waveforms:"+ waveFormCount);
 		JSONArray ids = documentContext.read("$..id");
 		assertThat(ids).containsExactlyInAnyOrder(17, 18, 19, 20);
 		JSONArray recDates = documentContext.read("$..recDate");
@@ -67,6 +66,7 @@ class AudioProcessorApplicationTests {
 	}
 
 	@Test
+	@DirtiesContext
 	void shouldCreateANewWaveForm() {
 		WaveForm newWaveForm = new WaveForm(null, "5-03-2017", "windermere");
 		ResponseEntity<Void> createResponse = restTemplate
