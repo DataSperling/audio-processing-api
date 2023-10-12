@@ -38,7 +38,6 @@ public class WaveformJsonTest {
 
   @Test
   public void waveFormSerializationTest()  throws IOException {
-    //WaveForm waveForm = new WaveForm(17L, "5-03-2017", "windermere");
     assertThat(json.write(waveForm)).isStrictlyEqualToJson("single.json");
     assertThat(json.write(waveForm)).hasJsonPathNumberValue("@.id");
     assertThat(json.write(waveForm)).extractingJsonPathNumberValue("@.id")
@@ -61,7 +60,6 @@ public class WaveformJsonTest {
             }
             """;
     assertThat(json.parse(expected)).isEqualTo(waveForm);
-    //assertThat(json.parse(expected)).isEqualTo(new WaveForm(17L, "5-03-2017", "windermere"));
     assertThat(json.parseObject(expected).id()).isEqualTo(17);
     assertThat(json.parseObject(expected).recDate()).isEqualTo("5-03-2017");
     assertThat(json.parseObject(expected).location()).isEqualTo("windermere");
@@ -89,6 +87,4 @@ public class WaveformJsonTest {
         """;
     assertThat(jsonList.parse(expected)).isEqualTo(waveForms);
   }
-
-
 }

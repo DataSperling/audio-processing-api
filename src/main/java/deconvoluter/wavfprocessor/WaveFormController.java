@@ -27,6 +27,11 @@ public class WaveFormController {
     }
   }
 
+  @GetMapping()
+  public ResponseEntity<Iterable<WaveForm>> findAll() {
+    return ResponseEntity.ok(waveFormRepository.findAll());
+  }
+
   @PostMapping()
   private ResponseEntity<Void> createWaveForm(@RequestBody WaveForm newWaveFormRequest, UriComponentsBuilder ucb) {
     WaveForm savedWaveForm = waveFormRepository.save(newWaveFormRequest);
