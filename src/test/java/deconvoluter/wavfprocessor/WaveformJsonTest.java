@@ -15,17 +15,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
 public class WaveformJsonTest {
-
+  private WaveForm waveForm;
   private WaveForm[] waveForms;
-
   @Autowired
   private JacksonTester<WaveForm> json;
-
   @Autowired
   private JacksonTester<WaveForm[]> jsonList;
 
   @BeforeEach
-  void setUp() {
+  void setUpWaveForm() {
+    waveForm = new WaveForm(17L, "5-03-2017", "windermere");
+  }
+
+  @BeforeEach
+  void setUpWaveFormArray() {
     waveForms = Arrays.array(
         new WaveForm(17L, "5-03-2017", "windermere"),
         new WaveForm(18L, "28-01-2015", "monfragüe"),
@@ -35,7 +38,7 @@ public class WaveformJsonTest {
 
   @Test
   public void waveFormSerializationTest()  throws IOException {
-    WaveForm waveForm = new WaveForm(17L, "5-03-2017", "windermere");
+    //WaveForm waveForm = new WaveForm(17L, "5-03-2017", "windermere");
     assertThat(json.write(waveForm)).isStrictlyEqualToJson("single.json");
     assertThat(json.write(waveForm)).hasJsonPathNumberValue("@.id");
     assertThat(json.write(waveForm)).extractingJsonPathNumberValue("@.id")
@@ -57,7 +60,8 @@ public class WaveformJsonTest {
               "location" : "windermere"
             }
             """;
-    assertThat(json.parse(expected)).isEqualTo(new WaveForm(17L, "5-03-2017", "windermere"));
+    assertThat(json.parse(expected)).isEqualTo(waveForm);
+    //assertThat(json.parse(expected)).isEqualTo(new WaveForm(17L, "5-03-2017", "windermere"));
     assertThat(json.parseObject(expected).id()).isEqualTo(17);
     assertThat(json.parseObject(expected).recDate()).isEqualTo("5-03-2017");
     assertThat(json.parseObject(expected).location()).isEqualTo("windermere");

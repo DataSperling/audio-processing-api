@@ -42,6 +42,12 @@ class AudioProcessorApplicationTests {
 	}
 
 	@Test
+	void shouldReturnAllWaveFormsWhenAListIsRequested() {
+		ResponseEntity<String> response = restTemplate.getForEntity("/waveforms", String.class);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+	}
+
+	@Test
 	void shouldCreateANewWaveForm() {
 		WaveForm newWaveForm = new WaveForm(null, "27-08-2019", "loch-ness");
 		ResponseEntity<Void> createResponse = restTemplate
