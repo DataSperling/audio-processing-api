@@ -1,6 +1,6 @@
 # GET Contract
 
-#### Request
+#### Request Single By ID
     URI: /waveforms/{id}
     HTTP Verb: GET
     Body: None
@@ -16,11 +16,19 @@
       "recDate" : "15-07-2019",
       "location" : "windermere"
     }
+##
+#### Request Page of 10 Entries in Reverse Chronological Order
+    URI: /waveforms
+    HTTP Verb: GET
+    Body: None
+
+#### Response (Paging Data Omitted for Brevity)
+    
 
 # POST Contract
 
 #### Request
-    URI: /waveforms/
+    URI: /waveforms?page=1
     HTTP Verb: POST
     Body:
     {
