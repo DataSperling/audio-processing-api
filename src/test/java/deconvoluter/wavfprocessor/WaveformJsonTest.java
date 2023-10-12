@@ -66,6 +66,11 @@ public class WaveformJsonTest {
   @Test
   void waveFormListSerializationTest() throws IOException {
     assertThat(jsonList.write(waveForms)).isStrictlyEqualToJson("list.json");
+    assertThat(json.write(waveForms[1])).hasJsonPathNumberValue("$.id");
+    assertThat(json.write(waveForms[1])).extractingJsonPathNumberValue("@.id").isEqualTo(18);
+    assertThat(json.write(waveForms[2])).hasJsonPathStringValue("$.recDate");
+    assertThat(json.write(waveForms[2])).extractingJsonPathStringValue("@.recDate")
+        .isEqualTo("11-07-2010");
   }
 
   @Test
