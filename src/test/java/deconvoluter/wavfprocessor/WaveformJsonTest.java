@@ -30,7 +30,7 @@ public class WaveformJsonTest {
         new WaveForm(17L, "5-03-2017", "windermere"),
         new WaveForm(18L, "28-01-2015", "monfragüe"),
         new WaveForm(19L, "11-07-2010", "comacchio"),
-        new WaveForm(9920L, "12-06-2021", "biscay"));
+        new WaveForm(20L, "12-06-2021", "biscay"));
   }
 
   @Test
@@ -50,8 +50,7 @@ public class WaveformJsonTest {
 
   @Test
   public void waveFormDeserializationTest() throws IOException {
-    String expected =
-        """
+    String expected = """
             {
               "id" : 17,
               "recDate" : "5-03-2017",
@@ -67,6 +66,19 @@ public class WaveformJsonTest {
   @Test
   void waveFormListSerializationTest() throws IOException {
     assertThat(jsonList.write(waveForms)).isStrictlyEqualToJson("list.json");
+  }
+
+  @Test
+  void waveFormListDeserializationTest() throws IOException {
+    String expected = """
+        [
+          { "id" : 17, "recDate" : "5-03-2017", "location" : "windermere" },
+          { "id" : 18, "recDate" : "28-01-2015", "location" : "monfragüe" },
+          { "id" : 19, "recDate" : "11-07-2010", "location" : "comacchio" },
+          { "id" : 20, "recDate" : "12-06-2021", "location" : "biscay" }
+        ]
+        """;
+    assertThat(jsonList.parse(expected)).isEqualTo(waveForms);
   }
 
 
