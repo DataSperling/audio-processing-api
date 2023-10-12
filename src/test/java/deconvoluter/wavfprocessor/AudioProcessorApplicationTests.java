@@ -62,6 +62,17 @@ class AudioProcessorApplicationTests {
 		JSONArray recDates = documentContext.read("$..recDate");
 		assertThat(recDates).containsExactlyInAnyOrder(
 				"5-03-2017", "28-01-2015", "11-07-2010", "12-06-2021");
+	}
+
+	@Test
+	void shouldReturnAPageOfWaveForms() {
+		ResponseEntity<String> response = restTemplate.getForEntity("/waveforms?page=0&size=1", String.class);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+		DocumentContext documentContext = JsonPath.parse(response.getBody());
+		JSONArray page = documentContext.read("$[*]");
+		assertThat(page.size()).isEqualTo(1);
+
 
 	}
 
