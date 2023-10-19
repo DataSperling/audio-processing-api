@@ -1,6 +1,6 @@
 [
-  { "id" :  17, "recDate" :  "2017-03-5", "location" : "windermere" },
-  { "id" :  18, "recDate" : "2015-01-28", "location" : "monfragüe" },
-  { "id" :  19, "recDate" : "2010-07-11", "location" : "comacchio" },
-  { "id" :  20, "recDate" : "2021-06-12", "location" : "biscay" }
+  { "id" :  17, "recDate" :  "2017-03-5", "location" : "windermere", "owner" : "data-sperling" },
+  { "id" :  18, "recDate" : "2015-01-28", "location" : "monfragüe", "owner" : "data-sperling" },
+  { "id" :  19, "recDate" : "2010-07-11", "location" : "comacchio", "owner" : "data-sperling" },
+  { "id" :  20, "recDate" : "2021-06-12", "location" : "biscay", "owner" : "data-sperling" }
 ]

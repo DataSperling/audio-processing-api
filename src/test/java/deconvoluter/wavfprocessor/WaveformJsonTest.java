@@ -24,16 +24,16 @@ public class WaveformJsonTest {
 
   @BeforeEach
   void setUpWaveForm() {
-    waveForm = new WaveForm(17L, "2017-03-5", "windermere");
+    waveForm = new WaveForm(17L, "2017-03-5", "windermere", "data-sperling");
   }
 
   @BeforeEach
   void setUpWaveFormArray() {
     waveForms = Arrays.array(
-        new WaveForm(17L, "2017-03-5", "windermere"),
-        new WaveForm(18L, "2015-01-28", "monfragüe"),
-        new WaveForm(19L, "2010-07-11", "comacchio"),
-        new WaveForm(20L, "2021-06-12", "biscay"));
+        new WaveForm(17L, "2017-03-5", "windermere", "data-sperling"),
+        new WaveForm(18L, "2015-01-28", "monfragüe", "data-sperling"),
+        new WaveForm(19L, "2010-07-11", "comacchio", "data-sperling"),
+        new WaveForm(20L, "2021-06-12", "biscay", "data-sperling"));
   }
 
   @Test
@@ -56,7 +56,8 @@ public class WaveformJsonTest {
             {
               "id" : 17,
               "recDate" : "2017-03-5",
-              "location" : "windermere"
+              "location" : "windermere",
+              "owner" : "data-sperling"
             }
             """;
     assertThat(json.parse(expected)).isEqualTo(waveForm);
@@ -79,10 +80,10 @@ public class WaveformJsonTest {
   void waveFormListDeserializationTest() throws IOException {
     String expected = """
         [
-          { "id" : 17, "recDate" : "2017-03-5", "location" : "windermere" },
-          { "id" : 18, "recDate" : "2015-01-28", "location" : "monfragüe" },
-          { "id" : 19, "recDate" : "2010-07-11", "location" : "comacchio" },
-          { "id" : 20, "recDate" : "2021-06-12", "location" : "biscay" }
+          { "id" : 17, "recDate" : "2017-03-5", "location" : "windermere", "owner" : "data-sperling" },
+          { "id" : 18, "recDate" : "2015-01-28", "location" : "monfragüe", "owner" : "data-sperling" },
+          { "id" : 19, "recDate" : "2010-07-11", "location" : "comacchio", "owner" : "data-sperling" },
+          { "id" : 20, "recDate" : "2021-06-12", "location" : "biscay", "owner" : "data-sperling" }
         ]
         """;
     assertThat(jsonList.parse(expected)).isEqualTo(waveForms);

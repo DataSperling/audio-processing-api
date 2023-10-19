@@ -32,11 +32,6 @@ public class WaveFormController {
     }
   }
 
-//  @GetMapping()
-//  public ResponseEntity<Iterable<WaveForm>> findAll() {
-//    return ResponseEntity.ok(waveFormRepository.findAll());
-//  }
-
   @GetMapping
   public ResponseEntity<List<WaveForm>> findAll(Pageable pageable) {
     Page<WaveForm> page = waveFormRepository.findAll(

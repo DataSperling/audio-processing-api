@@ -29,6 +29,7 @@ class AudioProcessorApplicationTests {
 	@Test
 	void shouldReturnAWaveFormWhenDataIsSaved() {
 		ResponseEntity<String> response = restTemplate
+				.withBasicAuth("data-sperling", "nesty-1")
 				.getForEntity("/waveforms/17", String.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		DocumentContext documentContext = JsonPath.parse(response.getBody());
@@ -43,14 +44,30 @@ class AudioProcessorApplicationTests {
 	@Test
 	void shouldNotReturnAWaveFromWithUnknownId() {
 		ResponseEntity<String> response = restTemplate
+				.withBasicAuth("data-sperling", "nesty-1")
 				.getForEntity("/waveforms/9798", String.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 		assertThat(response.getBody()).isBlank();
 	}
 
 	@Test
+	void shouldNotReturnAWaveFormUsingBadCredentials() {
+		ResponseEntity<String> response = restTemplate
+				.withBasicAuth("BAD-APPLE", "nesty-1")
+				.getForEntity("/waveforms/17", String.class);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+
+		response = restTemplate
+				.withBasicAuth("data-sperling", "BAD-PWORD")
+				.getForEntity("/waveforms/17", String.class);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+	}
+
+	@Test
 	void shouldReturnAllWaveFormsWhenAListIsRequested() {
-		ResponseEntity<String> response = restTemplate.getForEntity("/waveforms", String.class);
+		ResponseEntity<String> response = restTemplate
+				.withBasicAuth("data-sperling", "nesty-1")
+				.getForEntity("/waveforms", String.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
 		DocumentContext documentContext = JsonPath.parse(response.getBody());
@@ -66,7 +83,9 @@ class AudioProcessorApplicationTests {
 
 	@Test
 	void shouldReturnAPageOfWaveForms() {
-		ResponseEntity<String> response = restTemplate.getForEntity("/waveforms?page=0&size=1", String.class);
+		ResponseEntity<String> response = restTemplate
+				.withBasicAuth("data-sperling", "nesty-1")
+				.getForEntity("/waveforms?page=0&size=1", String.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
 		DocumentContext documentContext = JsonPath.parse(response.getBody());
@@ -77,6 +96,7 @@ class AudioProcessorApplicationTests {
 	@Test
 	void shouldReturnASortedPageOfWaveForms() {
 		ResponseEntity<String> response = restTemplate
+				.withBasicAuth("data-sperling", "nesty-1")
 				.getForEntity("/waveforms?page=0&size=1&sort=recDate,desc", String.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -90,7 +110,9 @@ class AudioProcessorApplicationTests {
 
 	@Test
 	void shouldReturnASortedPageOfWaveformsWithNoParametersUsingDefaultValues() {
-		ResponseEntity<String> response = restTemplate.getForEntity("/waveforms", String.class);
+		ResponseEntity<String> response = restTemplate
+				.withBasicAuth("data-sperling", "nesty-1")
+				.getForEntity("/waveforms", String.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
 		DocumentContext documentContext = JsonPath.parse(response.getBody());
@@ -108,13 +130,15 @@ class AudioProcessorApplicationTests {
 	@Test
 	@DirtiesContext
 	void shouldCreateANewWaveForm() {
-		WaveForm newWaveForm = new WaveForm(null, "5-03-2017", "windermere");
+		WaveForm newWaveForm = new WaveForm(null, "5-03-2017", "windermere", "data-sperling");
 		ResponseEntity<Void> createResponse = restTemplate
+				.withBasicAuth("data-sperling", "nesty-1")
 				.postForEntity("/waveforms", newWaveForm, Void.class);
 		assertThat(createResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
 		URI locationOfWaveForm = createResponse.getHeaders().getLocation();
 		ResponseEntity<String> getResponse = restTemplate
+				.withBasicAuth("data-sperling", "nesty-1")
 				.getForEntity(locationOfWaveForm, String.class);
 		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -126,6 +150,4 @@ class AudioProcessorApplicationTests {
 		assertThat(recDate).isEqualTo("5-03-2017");
 		assertThat(location).isEqualTo("windermere");
 	}
-
-
 }
