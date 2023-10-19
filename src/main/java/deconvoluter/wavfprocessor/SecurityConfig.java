@@ -19,7 +19,7 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests()
         .requestMatchers("/waveforms/**")
-        .authenticated()
+        .hasRole("WAVEFORM-OWNER")
         .and()
         .csrf().disable()
         .httpBasic();
@@ -33,9 +33,14 @@ public class SecurityConfig {
     UserDetails dataSperling = users
         .username("data-sperling")
         .password(passwordEncoder.encode("nesty-1"))
-        .roles()
+        .roles("WAVEFORM-OWNER")
         .build();
-    return new InMemoryUserDetailsManager(dataSperling);
+    UserDetails cuckooNoSong = users
+        .username("cuckoo-no-song")
+        .password(passwordEncoder.encode("yzg-798"))
+        .roles("NON-OWNER")
+        .build();
+    return new InMemoryUserDetailsManager(dataSperling, cuckooNoSong);
 
   }
 
