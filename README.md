@@ -17,12 +17,18 @@
       "location" : "windermere"
     }
 ##
-#### Request Page of 10 Entries in Reverse Chronological Order
-    URI: /waveforms
+#### Request Page of 10 Entries Sorted in Reverse Chronological
+    URI: /waveforms?page=0&size=10&sort=recDate,desc
     HTTP Verb: GET
     Body: None
 
 #### Example Response Body (Paging Data Omitted for Brevity)
+    [        
+        { "id" :  20, "recDate" : "2021-06-12", "location" : "biscay" },
+        { "id" :  17, "recDate" : "2017-03-5", "location" : "windermere" },
+        { "id" :  18, "recDate" : "2015-01-28", "location" : "monfragüe" },
+        { "id" :  19, "recDate" : "2010-07-11", "location" : "comacchio" }        
+    ]
     
 
 # POST Contract

@@ -89,6 +89,23 @@ class AudioProcessorApplicationTests {
 	}
 
 	@Test
+	void shouldReturnASortedPageOfWaveformsWithNoParametersUsingDefaultValues() {
+		ResponseEntity<String> response = restTemplate.getForEntity("/waveforms", String.class);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+		DocumentContext documentContext = JsonPath.parse(response.getBody());
+		JSONArray page = documentContext.read("$[*]");
+		assertThat(page.size()).isEqualTo(4);
+
+		JSONArray recDates = documentContext.read("$..recDate");
+		assertThat(recDates).containsExactly(
+				"2021-06-12",
+				"2017-03-5",
+				"2015-01-28",
+				"2010-07-11");
+	}
+
+	@Test
 	@DirtiesContext
 	void shouldCreateANewWaveForm() {
 		WaveForm newWaveForm = new WaveForm(null, "5-03-2017", "windermere");
