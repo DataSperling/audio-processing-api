@@ -35,7 +35,7 @@ class AudioProcessorApplicationTests {
 		Number id = documentContext.read("$.id");
 		assertThat(id).isEqualTo(17);
 		String recDate = documentContext.read("$.recDate");
-		assertThat(recDate).isEqualTo("5-03-2017");
+		assertThat(recDate).isEqualTo("2017-03-5");
 		String location = documentContext.read("$.location");
 		assertThat(location).isEqualTo("windermere");
 	}
@@ -61,7 +61,7 @@ class AudioProcessorApplicationTests {
 		assertThat(ids).containsExactlyInAnyOrder(17, 18, 19, 20);
 		JSONArray recDates = documentContext.read("$..recDate");
 		assertThat(recDates).containsExactlyInAnyOrder(
-				"5-03-2017", "28-01-2015", "11-07-2010", "12-06-2021");
+				"2017-03-5", "2015-01-28", "2010-07-11", "2021-06-12");
 	}
 
 	@Test
@@ -77,10 +77,15 @@ class AudioProcessorApplicationTests {
 	@Test
 	void shouldReturnASortedPageOfWaveForms() {
 		ResponseEntity<String> response = restTemplate
-				.getForEntity("/waveforms?page=0&size=1&sort=date,des", String.class);
+				.getForEntity("/waveforms?page=0&size=1&sort=recDate,desc", String.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-		//DocumentContext documentContext = JsonPath
+		DocumentContext documentContext = JsonPath.parse(response.getBody());
+		JSONArray read = documentContext.read("$[*]");
+		assertThat(read.size()).isEqualTo(1);
+
+		String recDate = documentContext.read("$[0].recDate");
+		assertThat(recDate).isEqualTo("2021-06-12");
 	}
 
 	@Test

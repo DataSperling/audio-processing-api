@@ -1,6 +1,6 @@
 [
-  { "id" :  17, "recDate" :  "5-03-2017", "location" : "windermere" },
-  { "id" :  18, "recDate" : "28-01-2015", "location" : "monfragüe" },
-  { "id" :  19, "recDate" : "11-07-2010", "location" : "comacchio" },
-  { "id" :  20, "recDate" : "12-06-2021", "location" : "biscay" }
+  { "id" :  17, "recDate" :  "2017-03-5", "location" : "windermere" },
+  { "id" :  18, "recDate" : "2015-01-28", "location" : "monfragüe" },
+  { "id" :  19, "recDate" : "2010-07-11", "location" : "comacchio" },
+  { "id" :  20, "recDate" : "2021-06-12", "location" : "biscay" }
 ]

@@ -1,6 +1,6 @@
-INSERT INTO wave_form(ID, REC_DATE, LOCATION)VALUES (17, '5-03-2017', 'windermere');
-INSERT INTO wave_form(ID, REC_DATE, LOCATION)VALUES (18, '28-01-2015', 'monfragüe');
-INSERT INTO wave_form(ID, REC_DATE, LOCATION)VALUES (19, '11-07-2010', 'comacchio');
-INSERT INTO wave_form(ID, REC_DATE, LOCATION)VALUES (20, '12-06-2021', 'biscay');
+INSERT INTO wave_form(ID, REC_DATE, LOCATION)VALUES (17, '2017-03-5', 'windermere');
+INSERT INTO wave_form(ID, REC_DATE, LOCATION)VALUES (18, '2015-01-28', 'monfragüe');
+INSERT INTO wave_form(ID, REC_DATE, LOCATION)VALUES (19, '2010-07-11', 'comacchio');
+INSERT INTO wave_form(ID, REC_DATE, LOCATION)VALUES (20, '2021-06-12', 'biscay');
 
 

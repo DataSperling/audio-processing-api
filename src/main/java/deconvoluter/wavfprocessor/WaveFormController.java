@@ -41,7 +41,8 @@ public class WaveFormController {
     Page<WaveForm> page = waveFormRepository.findAll(
         PageRequest.of(
             pageable.getPageNumber(),
-            pageable.getPageSize()
+            pageable.getPageSize(),
+            pageable.getSort()
     ));
     return ResponseEntity.ok(page.getContent());
   }

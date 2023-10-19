@@ -24,16 +24,16 @@ public class WaveformJsonTest {
 
   @BeforeEach
   void setUpWaveForm() {
-    waveForm = new WaveForm(17L, "5-03-2017", "windermere");
+    waveForm = new WaveForm(17L, "2017-03-5", "windermere");
   }
 
   @BeforeEach
   void setUpWaveFormArray() {
     waveForms = Arrays.array(
-        new WaveForm(17L, "5-03-2017", "windermere"),
-        new WaveForm(18L, "28-01-2015", "monfragüe"),
-        new WaveForm(19L, "11-07-2010", "comacchio"),
-        new WaveForm(20L, "12-06-2021", "biscay"));
+        new WaveForm(17L, "2017-03-5", "windermere"),
+        new WaveForm(18L, "2015-01-28", "monfragüe"),
+        new WaveForm(19L, "2010-07-11", "comacchio"),
+        new WaveForm(20L, "2021-06-12", "biscay"));
   }
 
   @Test
@@ -44,7 +44,7 @@ public class WaveformJsonTest {
         .isEqualTo(17);
     assertThat(json.write(waveForm)).hasJsonPathStringValue("@.recDate");
     assertThat(json.write(waveForm)).extractingJsonPathStringValue("@.recDate")
-        .isEqualTo("5-03-2017");
+        .isEqualTo("2017-03-5");
     assertThat(json.write(waveForm)).hasJsonPathStringValue("@.location");
     assertThat(json.write(waveForm)).extractingJsonPathStringValue("@.location")
         .isEqualTo("windermere");
@@ -55,13 +55,13 @@ public class WaveformJsonTest {
     String expected = """
             {
               "id" : 17,
-              "recDate" : "5-03-2017",
+              "recDate" : "2017-03-5",
               "location" : "windermere"
             }
             """;
     assertThat(json.parse(expected)).isEqualTo(waveForm);
     assertThat(json.parseObject(expected).id()).isEqualTo(17);
-    assertThat(json.parseObject(expected).recDate()).isEqualTo("5-03-2017");
+    assertThat(json.parseObject(expected).recDate()).isEqualTo("2017-03-5");
     assertThat(json.parseObject(expected).location()).isEqualTo("windermere");
   }
 
@@ -72,17 +72,17 @@ public class WaveformJsonTest {
     assertThat(json.write(waveForms[1])).extractingJsonPathNumberValue("@.id").isEqualTo(18);
     assertThat(json.write(waveForms[2])).hasJsonPathStringValue("$.recDate");
     assertThat(json.write(waveForms[2])).extractingJsonPathStringValue("@.recDate")
-        .isEqualTo("11-07-2010");
+        .isEqualTo("2010-07-11");
   }
 
   @Test
   void waveFormListDeserializationTest() throws IOException {
     String expected = """
         [
-          { "id" : 17, "recDate" : "5-03-2017", "location" : "windermere" },
-          { "id" : 18, "recDate" : "28-01-2015", "location" : "monfragüe" },
-          { "id" : 19, "recDate" : "11-07-2010", "location" : "comacchio" },
-          { "id" : 20, "recDate" : "12-06-2021", "location" : "biscay" }
+          { "id" : 17, "recDate" : "2017-03-5", "location" : "windermere" },
+          { "id" : 18, "recDate" : "2015-01-28", "location" : "monfragüe" },
+          { "id" : 19, "recDate" : "2010-07-11", "location" : "comacchio" },
+          { "id" : 20, "recDate" : "2021-06-12", "location" : "biscay" }
         ]
         """;
     assertThat(jsonList.parse(expected)).isEqualTo(waveForms);
