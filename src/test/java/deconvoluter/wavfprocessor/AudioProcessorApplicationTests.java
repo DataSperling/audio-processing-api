@@ -72,8 +72,15 @@ class AudioProcessorApplicationTests {
 		DocumentContext documentContext = JsonPath.parse(response.getBody());
 		JSONArray page = documentContext.read("$[*]");
 		assertThat(page.size()).isEqualTo(1);
+	}
 
+	@Test
+	void shouldReturnASortedPageOfWaveForms() {
+		ResponseEntity<String> response = restTemplate
+				.getForEntity("/waveforms?page=0&size=1&sort=date,des", String.class);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
+		//DocumentContext documentContext = JsonPath
 	}
 
 	@Test

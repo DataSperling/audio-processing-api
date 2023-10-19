@@ -22,7 +22,7 @@
     HTTP Verb: GET
     Body: None
 
-#### Response (Paging Data Omitted for Brevity)
+#### Example Response Body (Paging Data Omitted for Brevity)
     
 
 # POST Contract
