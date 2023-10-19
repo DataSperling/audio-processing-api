@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +24,9 @@ public class WaveFormController {
   }
 
   @GetMapping("/{requestedId}")
-  public ResponseEntity<WaveForm> findById(@PathVariable Long requestedId) {
-    Optional<WaveForm> waveFormOptional = waveFormRepository.findById(requestedId);
+  public ResponseEntity<WaveForm> findById(@PathVariable Long requestedId, Principal principal) {
+    Optional<WaveForm> waveFormOptional = Optional
+        .ofNullable(waveFormRepository.findByIdAndOwner(requestedId, principal.getName()));
     if (waveFormOptional.isPresent()) {
       return ResponseEntity.ok(waveFormOptional.get());
     } else {
@@ -33,8 +35,8 @@ public class WaveFormController {
   }
 
   @GetMapping
-  public ResponseEntity<List<WaveForm>> findAll(Pageable pageable) {
-    Page<WaveForm> page = waveFormRepository.findAll(
+  public ResponseEntity<List<WaveForm>> findAll(Pageable pageable, Principal principal) {
+    Page<WaveForm> page = waveFormRepository.findByOwner(principal.getName(),
         PageRequest.of(
             pageable.getPageNumber(),
             pageable.getPageSize(),
@@ -43,9 +45,13 @@ public class WaveFormController {
     return ResponseEntity.ok(page.getContent());
   }
 
-  @PostMapping()
-  private ResponseEntity<Void> createWaveForm(@RequestBody WaveForm newWaveFormRequest, UriComponentsBuilder ucb) {
-    WaveForm savedWaveForm = waveFormRepository.save(newWaveFormRequest);
+  @PostMapping
+  private ResponseEntity<Void> createWaveForm(
+      @RequestBody WaveForm newWaveFormRequest,
+      UriComponentsBuilder ucb,
+      Principal principal) {
+    WaveForm waveFormWithOwner = new WaveForm(null, newWaveFormRequest.recDate(), newWaveFormRequest.location(), principal.getName());
+    WaveForm savedWaveForm = waveFormRepository.save(waveFormWithOwner);
     URI locationOfNewWaveForm = ucb
         .path("waveforms/{id}")
         .buildAndExpand(savedWaveForm.id())

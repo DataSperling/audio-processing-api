@@ -36,5 +36,13 @@ class AudioProcessorSecurityTests {
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
   }
 
+  @Test
+  void shouldNotAllowAccessToWaveFormsTheyDoNotOwn() {
+    ResponseEntity<String> response = restTemplate
+        .withBasicAuth("data-sperling", "nesty-1")
+        .getForEntity("/waveforms/999", String.class);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+  }
+
 
 }

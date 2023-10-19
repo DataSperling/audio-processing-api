@@ -50,19 +50,6 @@ class AudioProcessorApplicationTests {
 		assertThat(response.getBody()).isBlank();
 	}
 
-//	@Test
-//	void shouldNotReturnAWaveFormUsingBadCredentials() {
-//		ResponseEntity<String> response = restTemplate
-//				.withBasicAuth("BAD-APPLE", "nesty-1")
-//				.getForEntity("/waveforms/17", String.class);
-//		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
-//
-//		response = restTemplate
-//				.withBasicAuth("data-sperling", "BAD-PWORD")
-//				.getForEntity("/waveforms/17", String.class);
-//		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
-//	}
-
 	@Test
 	void shouldReturnAllWaveFormsWhenAListIsRequested() {
 		ResponseEntity<String> response = restTemplate
@@ -78,7 +65,10 @@ class AudioProcessorApplicationTests {
 		assertThat(ids).containsExactlyInAnyOrder(17, 18, 19, 20);
 		JSONArray recDates = documentContext.read("$..recDate");
 		assertThat(recDates).containsExactlyInAnyOrder(
-				"2017-03-5", "2015-01-28", "2010-07-11", "2021-06-12");
+				"2017-03-5",
+				"2015-01-28",
+				"2010-07-11",
+				"2021-06-12");
 	}
 
 	@Test
@@ -130,7 +120,7 @@ class AudioProcessorApplicationTests {
 	@Test
 	@DirtiesContext
 	void shouldCreateANewWaveForm() {
-		WaveForm newWaveForm = new WaveForm(null, "5-03-2017", "windermere", "data-sperling");
+		WaveForm newWaveForm = new WaveForm(null, "5-03-2017", "windermere", null);
 		ResponseEntity<Void> createResponse = restTemplate
 				.withBasicAuth("data-sperling", "nesty-1")
 				.postForEntity("/waveforms", newWaveForm, Void.class);
