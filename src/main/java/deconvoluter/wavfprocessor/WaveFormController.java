@@ -63,4 +63,19 @@ public class WaveFormController {
         .toUri();
     return ResponseEntity.created(locationOfNewWaveForm).build();
   }
+
+  @PutMapping("/{requestedId}")
+  private ResponseEntity<Void> putWaveForm(
+      @PathVariable Long requestedId,
+      @RequestBody WaveForm waveFormUpdate,
+      Principal principal) {
+    WaveForm waveForm = waveFormRepository.findByIdAndOwner(requestedId, principal.getName());
+    WaveForm updatedWaveForm = new WaveForm(
+        waveForm.id(),
+        waveFormUpdate.recDate(),
+        waveForm.location(),
+        principal.getName());
+    waveFormRepository.save(updatedWaveForm);
+    return ResponseEntity.noContent().build();
+  }
 }

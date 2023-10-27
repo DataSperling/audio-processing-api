@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
@@ -139,5 +141,28 @@ class AudioProcessorApplicationTests {
 		assertThat(id).isNotNull();
 		assertThat(recDate).isEqualTo("5-03-2017");
 		assertThat(location).isEqualTo("windermere");
+	}
+
+	// update waveform # 19 recorded on 2010-07-11 with new record recorded on 2018-08-12
+	@Test
+	@DirtiesContext
+	void shouldUpdateAnExistingWaveForm() {
+		WaveForm waveFormUpdate = new WaveForm(null, "2018-08-12", null, null);
+		HttpEntity<WaveForm> request = new HttpEntity<>(waveFormUpdate);
+		ResponseEntity<Void> response = restTemplate
+				.withBasicAuth("data-sperling", "nesty-1")
+				.exchange("/waveforms/19", HttpMethod.PUT, request, Void.class);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+
+		ResponseEntity<String> getResponse  = restTemplate
+				.withBasicAuth("data-sperling", "nesty-1")
+				.getForEntity("/waveforms/19", String.class);
+		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+		DocumentContext documentContext = JsonPath.parse(getResponse.getBody());
+		Number id = documentContext.read("$.id");
+		String recDate = documentContext.read("$.recDate");
+		assertThat(id).isEqualTo(19);
+		assertThat(recDate).isEqualTo("2018-08-12");
 	}
 }

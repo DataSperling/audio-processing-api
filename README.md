@@ -67,7 +67,9 @@
     }
 
 #### Response Code
-    204 NO CONTENT            resource updated
+    204 NO CONTENT      resource updated
+    403 UNAUTHORIZED    unauthenticated or unauthorized user
+    404 NOT FOUND       user authenticated and authorized but waveform not found
 
 #### Response Body
     Body: None
