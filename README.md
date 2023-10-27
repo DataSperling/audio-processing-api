@@ -2,13 +2,13 @@
 
 #### Request Single By ID
     URI: /waveforms/{id}
-    HTTP Verb: GET
-    Body: None
+    Http Verb: GET
+    Body: (empty))
 
 #### Response Codes
-    200 OK              user authorized and waveform retrieved
-    403 UNAUTHORIZED    unauthenticated or unauthorized user
-    404 NOT FOUND       user authenticated and authorized but waveform not found
+    200 OK              principal authorized and record retrieved
+    403 UNAUTHORIZED    principal unauthenticated or unauthorized
+    404 NOT FOUND       principal authenticated and authorized but record not found
 
 #### Example Response Body
     {
@@ -19,11 +19,11 @@
 ###
 #### Request Page of 10 Entries Sorted in Reverse Chronological Order
     URI: /waveforms?page=0&size=10&sort=recDate,desc
-    HTTP Verb: GET
-    Body: None
+    Http Verb: GET
+    Body: (empty))
 
 #### Response Codes
-    200 OK              user authorized and waveform retrieved
+    200 OK              user authorized and record retrieved
     403 UNAUTHORIZED    unauthenticated or unauthorized user
 
 #### Example Response Body (Paging Data Omitted for Brevity)
@@ -39,7 +39,7 @@
 
 #### Request Body
     URI: /waveforms?page=1
-    HTTP Verb: POST
+    Http Verb: POST
     Body:
     {
       "recDate" : "15-07-2017",
@@ -47,7 +47,7 @@
     }
 
 #### Response Code
-    201 CREATED         new resource created
+    201 CREATED         new record created
 
 #### Example Response Body
     Header: Location/waveforms/67
@@ -60,6 +60,8 @@
 ## PUT Contract (PUT Implemented as Update, PATCH Not Implemented)
 
 #### Request Body
+    URI: /waveforms/{id}
+    Http Verb: PUT
     Body:
     {
       "recDate" : "15-07-2017",
@@ -67,13 +69,28 @@
     }
 
 #### Response Code
-    204 NO CONTENT      resource updated
-    403 UNAUTHORIZED    unauthenticated or unauthorized user
-    404 NOT FOUND       user authenticated and authorized but waveform not found
+    204 NO CONTENT      recrod updated
+    403 UNAUTHORIZED    principal unauthenticated or unauthorized
+    404 NOT FOUND       principal authenticated and authorized but record not found
 
 #### Response Body
-    Body: None
+    Body: (empty)
 
+#
+## DELETE
+
+#### Request Body
+    URI: /waveforms/{id}
+    Http Verb: DELETE    
+    Body: (empty)
+
+#### Response Code
+    204 NO CONTENT      princiapl authorized and record record exists and successfully deleted
+    404 NOT FOUND       record does not exist (non-existant ID sent)
+    404 NOT FOUND       record exists but principal not owner
+
+#### Response Body
+    Body: (empty)
     
 
 
