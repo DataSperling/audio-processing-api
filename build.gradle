@@ -36,6 +36,6 @@ test {
 		//exceptionFormat "full"
 		showCauses true
 		//showStackTraces true
-		showStandardStreams = false
+		showStandardStreams = true
 	}
 }

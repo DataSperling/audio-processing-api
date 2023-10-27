@@ -17,6 +17,7 @@ import java.util.Optional;
 @RequestMapping("/waveforms")
 public class WaveFormController {
 
+  //TODO remove unsued Optional
   //TODO implement PUT for ML API
 
   private WaveFormRepository waveFormRepository;
@@ -70,12 +71,15 @@ public class WaveFormController {
       @RequestBody WaveForm waveFormUpdate,
       Principal principal) {
     WaveForm waveForm = waveFormRepository.findByIdAndOwner(requestedId, principal.getName());
-    WaveForm updatedWaveForm = new WaveForm(
-        waveForm.id(),
-        waveFormUpdate.recDate(),
-        waveForm.location(),
-        principal.getName());
-    waveFormRepository.save(updatedWaveForm);
-    return ResponseEntity.noContent().build();
+    if (waveForm != null) {
+      WaveForm updatedWaveForm = new WaveForm(
+          waveForm.id(),
+          waveFormUpdate.recDate(),
+          waveForm.location(),
+          principal.getName());
+      waveFormRepository.save(updatedWaveForm);
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.notFound().build();
   }
 }

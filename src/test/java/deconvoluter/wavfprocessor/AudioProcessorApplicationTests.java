@@ -165,4 +165,14 @@ class AudioProcessorApplicationTests {
 		assertThat(id).isEqualTo(19);
 		assertThat(recDate).isEqualTo("2018-08-12");
 	}
+
+	@Test
+	void shouldNotUpdateAWaveFormThatDoesNotExist() {
+		WaveForm unknownWaveForm = new WaveForm(null, "3333-03-3", null, null);
+		HttpEntity<WaveForm> request = new HttpEntity<>(unknownWaveForm);
+		ResponseEntity<Void> response = restTemplate
+				.withBasicAuth("data-sperling", "nesty-1")
+				.exchange("/waveforms/39393939", HttpMethod.PUT, request, Void.class);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+	}
 }
