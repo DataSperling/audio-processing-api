@@ -11,27 +11,22 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/waveforms")
 public class WaveFormController {
 
-  //TODO remove unsued Optional
   //TODO implement PUT for ML API
-
   private WaveFormRepository waveFormRepository;
-
   public WaveFormController(WaveFormRepository waveFormRepository) {
     this.waveFormRepository = waveFormRepository;
   }
 
   @GetMapping("/{requestedId}")
   public ResponseEntity<WaveForm> findById(@PathVariable Long requestedId, Principal principal) {
-    Optional<WaveForm> waveFormOptional = Optional
-        .ofNullable(waveFormRepository.findByIdAndOwner(requestedId, principal.getName()));
-    if (waveFormOptional.isPresent()) {
-      return ResponseEntity.ok(waveFormOptional.get());
+    WaveForm waveForm = findWaveForm(requestedId, principal);
+    if (waveForm != null) {
+      return ResponseEntity.ok(waveForm);
     } else {
       return ResponseEntity.notFound().build();
     }
@@ -70,7 +65,7 @@ public class WaveFormController {
       @PathVariable Long requestedId,
       @RequestBody WaveForm waveFormUpdate,
       Principal principal) {
-    WaveForm waveForm = waveFormRepository.findByIdAndOwner(requestedId, principal.getName());
+    WaveForm waveForm = findWaveForm(requestedId, principal);
     if (waveForm != null) {
       WaveForm updatedWaveForm = new WaveForm(
           waveForm.id(),
@@ -81,5 +76,9 @@ public class WaveFormController {
       return ResponseEntity.noContent().build();
     }
     return ResponseEntity.notFound().build();
+  }
+
+  private WaveForm findWaveForm(Long requestedId, Principal principal) {
+    return waveFormRepository.findByIdAndOwner(requestedId, principal.getName());
   }
 }
