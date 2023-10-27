@@ -17,6 +17,8 @@ import java.util.Optional;
 @RequestMapping("/waveforms")
 public class WaveFormController {
 
+  //TODO implement PUT for ML API
+
   private WaveFormRepository waveFormRepository;
 
   public WaveFormController(WaveFormRepository waveFormRepository) {
@@ -50,7 +52,10 @@ public class WaveFormController {
       @RequestBody WaveForm newWaveFormRequest,
       UriComponentsBuilder ucb,
       Principal principal) {
-    WaveForm waveFormWithOwner = new WaveForm(null, newWaveFormRequest.recDate(), newWaveFormRequest.location(), principal.getName());
+    WaveForm waveFormWithOwner = new WaveForm(
+        null, newWaveFormRequest.recDate(),
+        newWaveFormRequest.location(),
+        principal.getName());
     WaveForm savedWaveForm = waveFormRepository.save(waveFormWithOwner);
     URI locationOfNewWaveForm = ucb
         .path("waveforms/{id}")
