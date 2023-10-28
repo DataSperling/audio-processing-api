@@ -37,7 +37,6 @@
     
 ##
 ## POST Contract (POST Implemented as Create, Require Resource URI Returned)
-
 #### Request Body
     URI: /waveforms?page=1
     Http Verb: POST
@@ -58,8 +57,8 @@
       "location" : "windermere"
     }
 ##
-## PUT Contract (PUT Implemented as Update, PATCH Not Implemented)
 
+## PUT Contract (PUT Implemented as Update, PATCH Not Implemented)
 #### Request Body
     URI: /waveforms/{id}
     Http Verb: PUT
@@ -78,7 +77,7 @@
     Body: (empty)
 
 ##
-## DELETE
+## DELETE Contract
 
 #### Request Body
     URI: /waveforms/{id}
@@ -87,7 +86,7 @@
 
 #### Response Code
     204 NO CONTENT      princiapl authorized and record record exists and successfully deleted
-    404 NOT FOUND       record does not exist (non-existant ID sent)
+    404 NOT FOUND       princiapl authorized but record does not exist (non-existant ID sent)
     404 NOT FOUND       record exists but principal not owner
 
 #### Response Body
