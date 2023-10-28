@@ -78,6 +78,15 @@ public class WaveFormController {
     return ResponseEntity.notFound().build();
   }
 
+  @DeleteMapping("/{id}")
+  private ResponseEntity<Void> deleteWaveForm(@PathVariable Long id, Principal principal) {
+    if (waveFormRepository.existsByIdAndOwner(id, principal.getName())) {
+      waveFormRepository.deleteById(id);
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.notFound().build();
+  }
+
   private WaveForm findWaveForm(Long requestedId, Principal principal) {
     return waveFormRepository.findByIdAndOwner(requestedId, principal.getName());
   }

@@ -8,6 +8,7 @@
 #### Response Codes
     200 OK              principal authorized and record retrieved
     403 UNAUTHORIZED    principal unauthenticated or unauthorized
+    404 NOT FOUND       principal authenticated and authorized but not owner of record
     404 NOT FOUND       principal authenticated and authorized but record not found
 
 #### Example Response Body
@@ -34,7 +35,7 @@
         { "id" :  19, "recDate" : "2010-07-11", "location" : "comacchio" }        
     ]
     
-#
+##
 ## POST Contract (POST Implemented as Create, Require Resource URI Returned)
 
 #### Request Body
@@ -56,7 +57,7 @@
       "recDate" : "15-07-2017",
       "location" : "windermere"
     }
-#
+##
 ## PUT Contract (PUT Implemented as Update, PATCH Not Implemented)
 
 #### Request Body
@@ -76,7 +77,7 @@
 #### Response Body
     Body: (empty)
 
-#
+##
 ## DELETE
 
 #### Request Body

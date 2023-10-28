@@ -10,4 +10,6 @@ public interface WaveFormRepository extends CrudRepository<WaveForm, Long>, Pagi
   //TODO move to PostgreSQL + MySQL
   WaveForm findByIdAndOwner(Long id, String owner);
   Page<WaveForm> findByOwner(String owner, PageRequest amount);
+
+  boolean existsByIdAndOwner(Long id, String owner);
 }

@@ -23,7 +23,6 @@ public class SecurityConfig {
         .and()
         .csrf().disable()
         .httpBasic();
-
     return http.build();
   }
 
@@ -40,8 +39,12 @@ public class SecurityConfig {
         .password(passwordEncoder.encode("yzg-798"))
         .roles("NON-OWNER")
         .build();
-    return new InMemoryUserDetailsManager(dataSperling, cuckooNoSong);
-
+    UserDetails tensorAmsel = users
+        .username("tensor-amsel")
+        .password(passwordEncoder.encode("matrixy-2"))
+        .roles("WAVEFORM-OWNER")
+        .build();
+    return new InMemoryUserDetailsManager(dataSperling, cuckooNoSong, tensorAmsel);
   }
 
   @Bean

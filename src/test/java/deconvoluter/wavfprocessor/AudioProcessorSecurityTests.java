@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -44,5 +45,15 @@ class AudioProcessorSecurityTests {
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
   }
 
-
+  @Test
+  void shouldNotAllowDeleteOfWaveFormsTheyDoNotOwn() {
+    ResponseEntity<Void> deleteResponse = restTemplate
+        .withBasicAuth("data-sperling", "nesty-1")
+        .exchange("/waveforms/999", HttpMethod.DELETE, null, Void.class);
+    assertThat(deleteResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    ResponseEntity<String> getResponse = restTemplate
+        .withBasicAuth("tensor-amsel", "matrixy-2")
+        .getForEntity("/waveforms/999", String.class);
+    assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+  }
 }

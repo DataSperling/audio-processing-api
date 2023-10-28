@@ -2,7 +2,6 @@ package deconvoluter.wavfprocessor;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
-
 import net.minidev.json.JSONArray;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-
 
 import java.net.URI;
 
@@ -172,5 +170,27 @@ class AudioProcessorApplicationTests {
 				.withBasicAuth("data-sperling", "nesty-1")
 				.exchange("/waveforms/39393939", HttpMethod.PUT, request, Void.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+	}
+
+	@Test
+	@DirtiesContext
+	void shouldDeleteAnExistingWaveForm() {
+		ResponseEntity<Void> response = restTemplate
+				.withBasicAuth("data-sperling", "nesty-1")
+				.exchange("/waveforms/19", HttpMethod.DELETE, null, Void.class);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+
+		ResponseEntity<String> getResponse = restTemplate
+				.withBasicAuth("data-sperling", "nesty-1")
+				.getForEntity("/waveforms/19", String.class);
+		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+	}
+
+	@Test
+	void shouldNotDeleteANonExistingWaveForm() {
+		ResponseEntity<Void> deleteResponse = restTemplate
+				.withBasicAuth("data-sperling", "nesty-1")
+				.exchange("/waveforms/9393939", HttpMethod.DELETE, null, Void.class);
+		assertThat(deleteResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 	}
 }
