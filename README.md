@@ -1,4 +1,4 @@
-## GET Contract
+## GET
 
 #### Request Single By ID
     URI: /waveforms/{id}
@@ -36,7 +36,7 @@
     ]
     
 ##
-## POST Contract (POST Implemented as Create, Require Resource URI Returned)
+## POST (POST Implemented as Create, Require Resource URI Returned)
 #### Request Body
     URI: /waveforms?page=1
     Http Verb: POST
@@ -58,7 +58,7 @@
     }
 ##
 
-## PUT Contract (PUT Implemented as Update, PATCH Not Implemented)
+## PUT (PUT Implemented as Update, PATCH Not Implemented)
 #### Request Body
     URI: /waveforms/{id}
     Http Verb: PUT
@@ -77,7 +77,7 @@
     Body: (empty)
 
 ##
-## DELETE Contract
+## DELETE
 
 #### Request Body
     URI: /waveforms/{id}
