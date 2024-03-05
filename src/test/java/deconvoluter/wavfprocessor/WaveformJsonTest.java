@@ -32,7 +32,7 @@ public class WaveformJsonTest {
         new WaveForm(18L, "2015-01-28", "monfragüe", "data-sperling"),
         new WaveForm(19L, "2010-07-11", "comacchio", "data-sperling"),
         new WaveForm(20L, "2021-06-12", "biscay", "data-sperling"));
-  }
+  } 
 
   @Test
   public void waveFormSerializationTest()  throws IOException {
